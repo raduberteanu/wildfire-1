@@ -86,3 +86,7 @@ html, body, .container-fluid, .row, .map {
     height: 100%;
     padding: 0;
 }
+
+#map-content {
+    height: 100%;
+}

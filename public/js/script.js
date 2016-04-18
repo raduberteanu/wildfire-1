@@ -1,4 +1,4 @@
-var app = angular.module('twitterwildfire', ['ui.router','uiGmapgoogle-maps']);
+var app = angular.module('twitterwildfire', ['ui.router']);
 
 function MapPoint(id, latLng, importance, title){ 
     this.id = id;
@@ -19,13 +19,13 @@ function($stateProvider, $urlRouterProvider) {
       controller: 'MapCtrl'
     });
   $stateProvider
-    .state('net', {
-      url: '/net',
-      templateUrl: 'html/net.html',
-      controller: 'NetCtrl'
+    .state('cloud', {
+      url: '/cloud',
+      templateUrl: 'html/cloud.html',
+      controller: 'CloudCtrl'
     });
 
-  $urlRouterProvider.otherwise('net');
+  $urlRouterProvider.otherwise('map');
 }]);
 
 app.factory('markers', [function(){
@@ -35,7 +35,7 @@ app.factory('markers', [function(){
   return o;
 }]);
 
-app.controller('NetCtrl', [
+app.controller('CloudCtrl', [
     '$scope',
     function($scope) {
 	$scope.showChart = false;
@@ -48,60 +48,49 @@ app.controller('NetCtrl', [
 ]);
 
 app.controller('MapCtrl', [
-  '$scope',
-  function($scope){
-    $scope.showChart = false;
-
-    $scope.map = {
-      center: {
-        latitude: 40.1451,
-        longitude: -99.6680
-      },
-      zoom: 4,
-      bounds: {}
-    };
-
-    $scope.options = {
-      scrollwheel: true
-    };
-
-    var createRandomMarker = function(i, bounds, idKey) {
-      var lat_min = bounds.southwest.latitude,
-        lat_range = bounds.northeast.latitude - lat_min,
-        lng_min = bounds.southwest.longitude,
-        lng_range = bounds.northeast.longitude - lng_min;
-
-      if (idKey == null) {
-        idKey = "id";
-      }
-
-      var latitude = lat_min + (Math.random() * lat_range);
-      var longitude = lng_min + (Math.random() * lng_range);
-      var ret = {
-        latitude: latitude,
-        longitude: longitude,
-        title: 'm' + i
-      };
-      ret[idKey] = i;
-      return ret;
-    };
-    $scope.randomMarkers = [];
-
-    $scope.$watch(function() {
+    '$scope',
+    function($scope){
+	console.log("MapCtrl started");
+	$scope.showChart = false;
 	
+	$scope.map_content = null;
+	$scope.markers = [];
 
-    // Get the bounds from the map once it's loaded
-    $scope.$watch(function() {
-      return $scope.map.bounds;
-    }, function(nv, ov) {
-      // Only need to regenerate once
-      if (!ov.southwest && nv.southwest) {
-        var markers = [];
-        for (var i = 0; i < 50; i++) {
-          markers.push(createRandomMarker(i, $scope.map.bounds))
-        }
-        $scope.randomMarkers = markers;
-      }
-    }, true);
-  }
+	function createMarker(lat,lng) {
+	    var m = new google.maps.Circle({
+		center: new google.maps.LatLng(lat, lng),
+		radius: 2000000*(Math.pow(2,-$scope.map_content.getZoom())),
+		strokeColor: "#0000FF",
+		strokeOpacity: 0,
+		strokeWeight: 2,
+		fillColor: "#FF0000",
+		fillOpacity: 0.5
+	    });
+	    m.setMap($scope.map_content);
+	    $scope.markers.push(m);
+	    m
+	}
+	function initMap() {
+	    var mapProp = {
+		center: new google.maps.LatLng(52,0),
+		zoom: 4,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	    };
+	    $scope.map_content = new google.maps.Map(
+		document.getElementById('map-content'),mapProp);
+
+	    createMarker(51.508742, -0.120850);
+	    createMarker(58.983991,  5.734863);
+	    createMarker(52.395715,  4.888916);
+	    for (var i = 0; i < 100; i++) {
+	    	createMarker(Math.random()*60, Math.random()*100-50);
+	    }
+	    $scope.map_content.addListener('zoom_changed', function() {
+		console.log("zoom_changed");
+	    	for (marker of $scope.markers)
+	    	    marker.setRadius(2000000*(Math.pow(2,-$scope.map_content.getZoom())));
+	    },100);
+	}
+	initMap();
+    }
 ]);
