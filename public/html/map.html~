@@ -1,0 +1,18 @@
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+      <li class="sidebar-brand">
+	<a href="#">Twitter Wildfire</a>
+      </li>
+      <li><a href="#">Map</a></li>
+      <li><a href="#">Overview</a></li>
+      <li><a href="#">Search by location</a></li>
+    </ul>
+  </div><!-- /#sidebar-wrapper -->
+  <div class="container">
+    <ui-gmap-google-map center='map.center' zoom='map.zoom' draggable="true" bounds="map.bounds" options="options">
+      <ui-gmap-markers models="randomMarkers" coords="'self'" icon="'icon'"></ui-gmap-markers>
+    </ui-gmap-google-map>
+  </div><!-- /container-->
+</div><!-- /#wrapper -->

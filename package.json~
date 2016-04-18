@@ -1,0 +1,9 @@
+{
+  "name": "twitterwildfire",
+  "version": "0.1.0",
+  "description": "Finds twitter trends",
+  "repository": {},
+  "dependencies": {
+    "lodash": "^4.11.1"
+  }
+}
