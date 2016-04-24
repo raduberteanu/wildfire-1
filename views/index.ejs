@@ -9,7 +9,7 @@
     <script src="api/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
     <script src="api/d3/d3.js" charset="utf-8"></script>
     <script src="api/d3.layout.cloud.js" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOowMXmkmCF0MPutZNRVRaLsAEeQdkBWw">
     </script>
@@ -19,9 +19,31 @@
     <script src="api/lodash/dist/lodash.compat.js"></script>
     <!--<script src="api/angular-google-maps/dist/angular-google-maps.js"></script>-->
 
-    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="script.js"></script>
   </head>
   <body ng-app="twitterwildfire">
-    <ui-view></ui-view>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <div id="sidebar-wrapper">
+	<ul class="sidebar-nav">
+	  <li class="sidebar-brand">
+            <a href="#">Twitter Wildfire</a>
+	  </li>
+	  <li><a href="#/map">Map</a></li>
+	  <li><a href="#/overview">Overview</a></li>
+	  <li><a href="#/search">Search</a></li>
+	  <li><a href="#/net">Network</a></li>
+	  <li><a href="#/cloud">Word cloud</a></li>
+	  <li><a href="#/cloud">Tag cloud</a></li>
+	  <li><a href="#/relation-table">Relation table</a></li>
+	  <li><a href="#/relation-net">Relation netwotk</a></li>
+	</ul>
+      </div><!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+	<div class="container-fluid">
+	  <ui-view></ui-view><!--div id="map-content"></div-->
+	</div><!-- /container-->
+      </div><!-- page-content-wrapper -->
+    </div><!-- /#wrapper -->
   </body>
 </html>

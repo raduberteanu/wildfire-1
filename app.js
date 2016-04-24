@@ -6,6 +6,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require("fs");
+var Canvas = require("canvas");
+var cloud = require("d3-cloud");
+var d3 = require("d3");
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -22,7 +25,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'pub')));
 
 app.use('/', routes);
 app.use('/users', users);
